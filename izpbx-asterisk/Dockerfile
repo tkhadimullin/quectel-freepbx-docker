@@ -39,6 +39,9 @@ ARG ASTERISK_G72X_VER=master
 ## https://github.com/shalzz/asterisk-chan-dongle
 ARG ASTERISK_CHAN_DONGLE_VER=master
 
+## https://github.com/IchthysMaranatha/asterisk-chan-quectel
+ARG ASTERISK_CHAN_QUECTEL_VER=3.0x86-64
+
 ## https://github.com/ugoviti/izsynth
 ARG IZSYNTH_VER=5.0
 
@@ -244,7 +247,7 @@ RUN set -xe && \
   groupadd -g ${APP_GID} ${APP_GRP} && \
   useradd -u ${APP_UID} -c "${APP_DESCRIPTION} User" -g ${APP_GRP} -s /sbin/nologin ${APP_USR} && \
   ## add asterisk user to wheel and apache group
-  usermod -aG wheel,apache ${APP_USR} && \
+  usermod -aG wheel,apache,dialout,games,lock ${APP_USR} && \
   ## fix phpMyAdmin apache group permissions
   chmod g+w /var/lib/phpMyAdmin/temp
 
@@ -493,6 +496,19 @@ RUN set -xe && \
   ldconfig && \
   : "---------- END build ----------" && \
   \
+  : "---------- START build asterisk-chan-quectel ----------" && \
+  cd /usr/src && \
+  mkdir asterisk-chan-quectel && \
+  curl -fSL --connect-timeout 30 https://github.com/IchthysMaranatha/asterisk-chan-quectel/archive/refs/tags/${ASTERISK_CHAN_QUECTEL_VER}.tar.gz | tar xz --strip 1 -C asterisk-chan-quectel && \
+  curl -fSL --connect-timeout 30 https://github.com/IchthysMaranatha/asterisk-chan-quectel/releases/download/${ASTERISK_CHAN_QUECTEL_VER}/quectel.conf -o quectel.conf && \
+  cd asterisk-chan-quectel && \
+  ./bootstrap && \
+  ./configure --with-astversion=${ASTERISK_VER} && \
+  make && \
+  make install && \
+  ldconfig && \
+  : "---------- END build ----------" && \  
+  \
   : "---------- START build sngrep ----------" && \
   cd /usr/src && \
   mkdir sngrep && \
@@ -611,7 +627,11 @@ RUN set -xe && \
   chown -R ${APP_USR}:${APP_GRP} \
     /etc/asterisk \
     /var/lib/asterisk \
-    /var/spool/asterisk
+    /var/spool/asterisk \
+    /var/log/asterisk \
+    /var/run/asterisk && \
+    chmod 1777 /var/lock && \
+    echo "KERNEL==\"ttyUSB[0-9]*\", OWNER=\"asterisk\"" > /etc/udev/rules.d/60-extra-acl.rules
 
 ### fixes and workarounds
 
