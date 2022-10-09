@@ -21,5 +21,5 @@ jobs:
         docker login -u wiseowls -p ${{ secrets.DOCKER_HUB_SECRET }}
         image_tag=wiseowls/freepbx-quectel:$(date +%s)
         docker build . --file Dockerfile --tag $image_tag
-        docker push image_tag
+        docker push $image_tag
         docker logout
