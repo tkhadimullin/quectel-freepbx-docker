@@ -1,31 +1,11 @@
-# Name
-[<img src="https://www.initzero.it/images/initzero-logo-izpbx-48x48.png">](https://www.initzero.it) izPBX Cloud Native VoIP Telephony System
-
 # Description
-izPBX is a Turnkey Cloud Native VoIP Telephony System powered by Asterisk Engine and FreePBX Management GUI
 
-# Supported tags
+Combining [izPBX](https://github.com/ugoviti/izpbx) and [asterisk-chan-quectel](https://github.com/IchthysMaranatha/asterisk-chan-quectel) to integrate  Quectel LTE 4G modules with FreePBX
 
-## Production Branch:
-* `18.16`, `18.16.X`, `18.16.X-BUILD`, `18.16.X-COMMIT`,`18`, `latest` (Asterisk 18 + FreePBX 16)
-* `18.15`, `18.15.X`, `18.15.X-BUILD`, `18.15.X-COMMIT` (Asterisk 18 + FreePBX 15)
-
-## Development Branches:
-* Asterisk 18 LTS: `dev-18`, `dev-18.X`, `dev-18.X.X-BUILD`, `dev-18.X.X-COMMIT`
-
-## Version notes:
-Tags format: **Z.Y.X-[BUILD|COMMIT]**
-
-where:  
-  * **Z** = Asterisk release (PBX engine)
-  * **Y** = FreePBX release (PBX GUI)
-  * **X** = izPBX release (this project)
-  * **BUILD** = Build number | **COMMIT** = GIT commit ID
-
-Look into project [Tags](https://hub.docker.com/r/izdock/izpbx-asterisk/tags) page to discover the latest versions
-
-# Dockerfile
-- https://github.com/ugoviti/izpbx/blob/main/izpbx-asterisk/Dockerfile
+# Required hardware
+ * https://www.quectel.com/product/lte-ec25-mini-pcie-series
+ * https://amzn.asia/d/gz0bQsh
+ * https://www.orico.shop/en/orico-matte-black-usb-30-hub-with-7-port-and-5gbps.html
 
 # Targets of this project
 Cloud and On-Premise, Fast, Automatic and Repeatable deploy of VoIP PBX systems
