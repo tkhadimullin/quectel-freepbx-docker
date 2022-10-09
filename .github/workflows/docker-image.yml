@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+defaults:
+  run:
+    working-directory: izpbx-asterisk
+
 jobs:
 
   build:
@@ -15,7 +19,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      working-directory: izpbx-asterisk
       run: docker build . --file Dockerfile --tag wiseowls/freepbx-quectel:$(date +%s)
     
     - name: Docker Login
@@ -29,6 +32,6 @@ jobs:
       # uses: docker/build-push-action@c84f38281176d4c9cdb1626ffafcd6b3911b5d94
       uses: docker/build-push-action@v3.1.1
       with:
-        file: izpbx-asterisk/Dockerfile
+        file: Dockerfile
         push: true
         tags: wiseowls/freepbx-quectel        
