@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:    
+    - uses: actions/checkout@v3
+    
+    - name: Build and push Docker image
+      run: |
+        cd izpbx-asterisk
+        docker login -u wiseowls -p ${{ secrets.DOCKER_HUB_SECRET }}
+        image_tag=wiseowls/freepbx-quectel:$(date +%s)
+        docker build . --file Dockerfile --tag $image_tag
+        docker push $image_tag
+        docker logout
